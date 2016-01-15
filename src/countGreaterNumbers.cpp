@@ -20,6 +20,29 @@ struct transaction {
 	char description[20];
 };
 
+int compare(char *string1,char *ptr){
+	int i;
+	for (i = 0; string1[i] != '\0'&&ptr[i] != '\0'; i++){
+		if (string1[i] != ptr[i])
+			return 0;
+	}
+	if (string1[i] == ptr[i])
+		return 1;
+}
+
 int countGreaterNumbers(struct transaction *Arr, int len, char *date) {
-	return -1;
+	int i;
+	if (Arr==nullptr)
+		return -1;
+	else{
+		for (i = 0; i < len; i++){
+			if (compare(Arr[i].date, date))
+				break;
+		}
+		if (i < len - 1 && !compare(Arr[i+1].date, date))
+			return len - i - 1;
+		else
+			return 0;
+	}
+
 }

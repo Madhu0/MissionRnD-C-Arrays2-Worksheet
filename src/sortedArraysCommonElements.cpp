@@ -16,6 +16,13 @@ NOTES:
 
 #include <iostream>
 
+int convert_num1(char str[]){
+	int day = (str[0] - '0') * 10 + str[1] - '0';
+	int month = (str[3] - '0') * 10 + str[4] - '0';
+	int year = (str[6] - '0') * 1000 + (str[7] - '0') * 100 + (str[8] - '0') * 10 + str[9];
+	return day + month * 30 + year * 365;
+}
+
 struct transaction {
 	int amount;
 	char date[11];
@@ -23,5 +30,25 @@ struct transaction {
 };
 
 struct transaction * sortedArraysCommonElements(struct transaction *A, int ALen, struct transaction *B, int BLen) {
-	return NULL;
+	if (A == NULL || B == NULL || ALen < 1 || BLen < 1)
+		return NULL;
+	int i = 0, j = 0, k = 0,common_count=0;
+	struct transaction *result;
+	result = (struct transaction *)malloc((ALen + BLen)*sizeof(struct transaction));
+	while (i < ALen&&j < BLen){
+		if (convert_num1(A[i].date) < convert_num1(B[j].date))
+			i++;
+		else if (convert_num1(A[i].date) > convert_num1(B[j].date))
+			j++;
+		else{
+			result[k] = A[i];
+			common_count++;
+			k++;
+			i++;
+			j++;
+		}
+	}
+	if (common_count == 0)
+		return NULL;
+	return result;
 }
